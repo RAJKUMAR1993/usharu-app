@@ -4,18 +4,61 @@ import Meta from "../../componets/Meta/Meta";
 import Productcard from "../../componets/Productcard/Productcard";
 import ReactStars from "react-rating-stars-component";
 import ReactImageZoom from "react-image-zoom";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Color from "../../componets/Color/Color";
 import { MdOutlineCompareArrows } from "react-icons/md";
 import { AiOutlineHeart } from "react-icons/ai";
+import axios from "axios";
+const uRl = "https://dummyjson.com/products";
 
 const SingleProduct = () => {
-  const props = {
-    width: 100,
-    height: 500,
-    zoomWidth: 500,
-    img: "https://i0.wp.com/ais.blog/wp-content/uploads/2019/10/iphone11-applewatch5review-aisblog-11.jpg?resize=700%2C467&ssl=1",
+  const productId = useParams();
+  const [isLoading, setIsLoading] = useState(false);
+  const [singleProduct, setSingleProduct] = useState([]);
+  const getProduct = () => {
+    axios
+      .get(`https://dummyjson.com/products/${productId.id}`, {
+        params: {
+          id: productId,
+        },
+      })
+
+      .then((response) => {
+        setIsLoading(true);
+        console.log(response.data, "single proudct");
+        if (response.data) {
+          const {
+            id: id,
+            brand: brand,
+            thumbnail: image,
+            description: description,
+            category: category,
+            price: price,
+            title: title,
+            stock: stock,
+            rating: rating,
+          } = response.data;
+
+          setSingleProduct(response.data);
+        } else {
+          setSingleProduct(null);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
+
+  useEffect(() => {
+    getProduct();
+  }, []);
+
+  // const props = {
+  //   width: 100,
+  //   height: 500,
+  //   zoomWidth: 500,
+  //   img: "https://i0.wp.com/ais.blog/wp-content/uploads/2019/10/iphone11-applewatch5review-aisblog-11.jpg?resize=700%2C467&ssl=1",
+  // };
 
   const ratingChanged = (newRating) => {};
 
@@ -26,7 +69,6 @@ const SingleProduct = () => {
 
   // copy text
   const copyToClipboard = (text) => {
-    console.log("text", text);
     var textField = document.createElement("textarea");
     textField.innerText = text;
     document.body.appendChild(textField);
@@ -34,6 +76,17 @@ const SingleProduct = () => {
     document.execCommand("copy");
     textField.remove();
   };
+  const {
+    newId,
+    newBrand,
+    newImage,
+    newDescription,
+    newCategory,
+    newPrice,
+    newTitle,
+    newStock,
+    newRating,
+  } = singleProduct;
 
   return (
     <>
@@ -41,45 +94,35 @@ const SingleProduct = () => {
       <Breadcrums title="Single Product" />
       <div className="main-product-wrapper py-5 home-wrapper-2">
         <div className="container-xxl ">
-          <div className="row">
+          <div className="row" key={singleProduct.id}>
             <div className="col-sm-12 col-md-6 col-lg-6">
               <div className="main-product-image bg-white">
-                <div>
-                  <ReactImageZoom {...props} />
-                </div>
                 <div className="d-flex other-product-image flex-wrap gap-15">
-                  <div>
-                    <img src="../images/watch.jpg" className="width" alt="" />
-                  </div>
-                  <div>
-                    <img src="../images/watch.jpg" className="width" alt="" />
-                  </div>
-                  <div>
-                    <img src="../images/watch.jpg" className="width" alt="" />
-                  </div>
-                  <div>
-                    <img src="../images/watch.jpg" className="width" alt="" />
-                  </div>
+                  <img
+                    src={singleProduct.thumbnail}
+                    className={{ width: "50px" }}
+                    alt=""
+                  />
                 </div>
               </div>
             </div>
             <div className="col-sm-12 col-md-6 col-lg-6">
               <div className="main-product-details">
                 <div className="border-bottom">
-                  <h6 className="title">Flared Shift Dress</h6>
+                  <h6 className="title text-success">{singleProduct.title}</h6>
                 </div>
                 <div className="border-bottom py-3">
-                  <p className="fw-bold ">$ 100</p>
+                  <p className="fw-bold ">$ {singleProduct.price}</p>
                   <div className="d-flex align-items-center gap-10  ">
                     <ReactStars
                       count={5}
                       onChange={ratingChanged}
                       size={24}
-                      //   value="3"
-                      //   edit={false}
+                      value={singleProduct.rating}
+                      edit={false}
                       activeColor="#ffd700"
                     />
-                    <p className="mb-0">(2 reviews)</p>
+                    <p className="mb-0">({singleProduct.rating})</p>
                   </div>
                   <a href="#review-data" className="mb-0 text-secondary">
                     Write a review
@@ -92,9 +135,7 @@ const SingleProduct = () => {
                   </div>
                   <div className="d-flex gap-10 align-items-center">
                     <h6 className="text-secondary">Brand :</h6>
-                    <p className="text-secondary">
-                      Nosie ColorFit Pro 4 Max Smartwatch - Black
-                    </p>
+                    <p className="text-secondary">{singleProduct.brand}</p>
                   </div>
                   <div className="d-flex gap-10 align-items-center">
                     <h6 className="text-secondary">Strap Material :</h6>
@@ -200,13 +241,7 @@ const SingleProduct = () => {
             <div className="col-sm-12 col-md-6 col-lg-12">
               <div className="bg-white p-3">
                 <h5>Description</h5>
-                <p className="">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Maxime mollitia, molestiae quas vel sint commodi repudiandae
-                  consequuntur voluptatum laborum numquam blanditiis harum
-                  quisquam eius sed odit fugiat iusto fuga praesentium optio,
-                  eaque rerum! Provident similique accusantium nemo autem
-                </p>
+                <p className="">{singleProduct.description}</p>
               </div>
             </div>
           </div>

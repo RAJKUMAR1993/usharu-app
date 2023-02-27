@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Breadcrums from "../Breadcrums/Breadcrums";
 import ProductcardStore from "../../componets/Productcard/ProductcardStore";
 import Color from "../../componets/Color/Color";
@@ -8,12 +8,8 @@ import ReactStars from "react-rating-stars-component";
 
 const Ourstore = () => {
   const [grid, setGrid] = useState(4);
-  // alert(grid);
-  console.log(grid);
 
-  const ratingChanged = (newRating) => {
-    console.log(newRating);
-  };
+  const ratingChanged = (newRating) => {};
   return (
     <>
       <Meta title={"Our Store"} />

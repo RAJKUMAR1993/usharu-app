@@ -2,11 +2,14 @@ import React from "react";
 import { Link, NavLink } from "react-router-dom";
 import { BsSearch } from "react-icons/bs";
 import { AiOutlineBars } from "react-icons/ai";
+// import { useSelector } from "react-redux";
+
 const Header = () => {
+  // const { amount } = useSelector((state) => state.cart);
   return (
     <>
-      <header className="header-top-strip py-1">
-        <div className="container-xxl">
+      <nav className="header-top-strip py-1">
+        <div className="container-fluid">
           <div className="row">
             <div className="col-6">
               <p className="text-white mt-2">
@@ -17,20 +20,21 @@ const Header = () => {
               <p className="text-end text-white mt-2">
                 Mobile :
                 <a className="text-white" href="tel: +91 9848604561">
-                  <b>9848604561</b>
+                  <strong> 9848604561</strong>
                 </a>
               </p>
             </div>
           </div>
         </div>
-      </header>
+      </nav>
       <header className="header-upper py-1">
         <div className="container-xxl ">
           <div className="row aline-items-center">
             <div className="col-2 mt-2">
               <h4>
                 <Link className="text-white text-decoration-none textCorner">
-                  Dev Corner.
+                  Dev <span className="text-info">Corner</span>
+                  <span className="text-info">.</span>
                 </Link>
               </h4>
             </div>
@@ -97,7 +101,7 @@ const Header = () => {
                     />
                     <div className="d-flex flex-column gap-10">
                       <span className="badge bg-white text-dark mb-10">0</span>
-                      <p className="mb-0">$ 500</p>
+                      <p className="mb-0 text-success fw-bold">$ {0}</p>
                     </div>
                   </Link>
                 </div>
@@ -171,32 +175,6 @@ const Header = () => {
         </div>
       </header>
     </>
-
-    //   <div>
-
-    //   <nav className="navbar navbar-expand-lg navbar-light bg-color">
-    // <div className="container-fluid">
-    //   <Link className="navbar-brand text-white" to="">Food 🥗</Link>
-    //   <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-    //     <span className="navbar-toggler-icon"></span>
-    //   </button>
-    //   <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
-    //     <div className="navbar-nav">
-    //       <Link className="nav-link  " aria-current="page" to="">Home</Link>
-    //       <Link className="nav-link " to="product">Product</Link>
-    //       <Link className="nav-link " to="about">About</Link>
-    //       <Link className="nav-link  " to="contact" >Contact</Link>
-    //     </div>
-    //         </div>
-    //         <div className='log-re'>
-    //         <Link className="nav-link loginApp" to="login">Login</Link>
-    //       <Link className="nav-link " to="register" >Register</Link>
-
-    //         </div>
-    // </div>
-    //             </nav>
-
-    //   </div>
   );
 };
 
